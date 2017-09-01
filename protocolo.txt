@@ -28,14 +28,13 @@
 		la TERMINAL inició. Se usan para avisar a la TERMINAL que ya
 		se apagó el NODO. Se incluye el tiempo que tardó en apagarse
 		desde que se prendió la luz (Delay), el Color con cual se 
-		había iluminado (Color) y el paso que estaba ejecutándo (Paso).
-		Todos los campos salvo ID son necesarios.
+		había iluminado (Color) y el paso que estaba ejecutando (Paso).
+		Todos los campos son necesarios.
 		
 		KEEPALIVE: Van del NODO a la TERMINAL. Se envían de forma
 		períodica para que la TERMINAL detecte la desconexión del NODO
 		o latencia inaceptablemente alta.
-		Ningún campo necesita estar
-		completado.
+                Sólo ID debe estar completado.
 		
 	2. Formato del paquete
 	
@@ -53,7 +52,7 @@
      |                             Delay                             |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      |             #Paso             |               -               |   
-	 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	 
 	 2.1 Campos
 	 
@@ -68,7 +67,7 @@
 		
 	    7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0
 	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	    |X X D S| AZUL  | VERDE |  ROJO |
+	    |X X D S| ROJO  | VERDE |  AZUL |
 	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 		
 		D 1: Se puede apagar el nodo a mayor distancia
