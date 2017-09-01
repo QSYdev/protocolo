@@ -1,0 +1,77 @@
+    PROTOCOLO TORTUGAS 011117
+	
+	Toda la comunicación se hace con paquetes de 16 bytes de tamaño
+	fijo. Estos paquetes se transportan por UDP o TCP.
+	
+    1. TIPOS DE PAQUETES
+	
+	Todos los paquetes tienen que comenzar con las letras "QSY" seguido
+	por el tipo del paquete (Type). 
+	
+	Hay cuatro tipos de paquetes:
+		HELLO: Los NODOS mandan estos paquetes a través de un grupo
+		multicast UDP. Solo importa el valor del campo ID. La TERMINAL
+		debe escuchar en el mismo grupo y puerto para encontrar los
+		nodos en la red.
+		
+		Una vez que la TERMINAL descubre los nodos, se conecta a ellos
+		por TCP usando el mismo valor numérico del puerto.
+		
+		COMMAND: Van de la TERMINAL al NODO. Indican el color (Color)
+		con el que se tiene que iluminar el NODO, el tiempo que debe 
+		esperar hasta prender la luz (Delay), el paso de la rutina al
+		cual corresponde este COMMAND (#Paso), si debería haber un 
+		pitido (S) o el umbral de distancia de apagado del NODO (D).
+		Todos los campos deben estar completados salvo ID.
+		
+		TOUCHE: Van del NODO a la TERMINAL por la misma conexión que
+		la TERMINAL inició. Se usan para avisar a la TERMINAL que ya
+		se apagó el NODO. Se incluye el tiempo que tardó en apagarse
+		desde que se prendió la luz (Delay), el Color con cual se 
+		había iluminado (Color) y el paso que estaba ejecutándo (Paso).
+		Todos los campos salvo ID son necesarios.
+		
+		KEEPALIVE: Van del NODO a la TERMINAL. Se envían de forma
+		períodica para que la TERMINAL detecte la desconexión del NODO
+		o latencia inaceptablemente alta.
+		Ningún campo necesita estar
+		completado.
+		
+	2. Formato del paquete
+	
+	Todos los campos almacenan números sin signo y con orden de bytes
+	Big-Endian.
+
+    
+	0               1               2               3            
+      7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |       'Q'     |       'S'     |       'Y'     |      Type     |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |               ID              |             Color             |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |                             Delay                             |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |             #Paso             |               -               |   
+	 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	 
+	 2.1 Campos
+	 
+	    Type: Un valor númerico que identifica el tipo de paquete.
+		 
+	    0: HELLO
+	    1: COMMAND
+	    2: TOUCHE
+	    3: KEEPALIVE
+
+	    Color: Color que ilumina el nodo junto a otros dos parámetros.
+		
+	    7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0
+	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	    |X X D S| AZUL  | VERDE |  ROJO |
+	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+		
+		D 1: Se puede apagar el nodo a mayor distancia
+		  0: No se puede apagar el nodo a mayor distancia
+		S 1: El nodo debe emitir sonido al ser apagado.
+		  0: El nodo no debe emitir sonido al ser apagado.
