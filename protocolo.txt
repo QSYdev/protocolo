@@ -1,4 +1,4 @@
-    PROTOCOLO TORTUGAS 011117
+    PROTOCOLO TORTUGAS 170901
 
 	Toda la comunicación se hace con paquetes de 16 bytes de tamaño
 	fijo. Estos paquetes se transportan por UDP o TCP.
@@ -20,19 +20,19 @@
 		COMMAND: Van de la TERMINAL al NODO. Indican el color (Color)
 		con el que se tiene que iluminar el NODO, el tiempo que debe
 		esperar hasta prender la luz (Delay), el paso de la rutina al
-		cual corresponde este COMMAND (#Paso), si debería haber un
+		cual corresponde este COMMAND (Step), si debería haber un
 		pitido (S) o el umbral de distancia de apagado del NODO (D).
-		Todos los campos deben estar completados salvo ID.
+		Por último se coloca el ID del nodo que va a recibir el paquete.
 
 		TOUCHE: Van del NODO a la TERMINAL por la misma conexión que
 		la TERMINAL inició. Se usan para avisar a la TERMINAL que ya
 		se apagó el NODO. Se incluye el tiempo que tardó en apagarse
 		desde que se prendió la luz (Delay), el Color con cual se
 		había iluminado (Color) y el paso que estaba ejecutando (Paso).
-		Todos los campos son necesarios.
+		Por último se agrega el ID del nodo que envía el touche.
 
 		KEEPALIVE: Van del NODO a la TERMINAL. Se envían de forma
-		períodica para que la TERMINAL detecte la desconexión del NODO
+		periódica para que la TERMINAL detecte la desconexión del NODO
 		o latencia inaceptablemente alta.
                 Sólo ID debe estar completado.
 
@@ -51,12 +51,12 @@
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      |                             Delay                             |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |             #Paso             |         Configuración         |
+     |              Step             |         Configuration         |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 	 2.1 Campos
 
-	    Type: Un valor númerico que identifica el tipo de paquete.
+	    Type: Un valor numérico que identifica el tipo de paquete.
 
 	    0: HELLO
 	    1: COMMAND
@@ -67,7 +67,7 @@
 
 	    7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0
 	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-	    |X X X X| ROJO  | VERDE |  AZUL |
+	    | ROJO  | VERDE |  AZUL |X X X X|
 	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 	    Configuración: define la distancia a la que se puede apagar
