@@ -1,4 +1,4 @@
-    PROTOCOLO TORTUGAS 170901
+    PROTOCOLO TORTUGAS 171020
 
 	Toda la comunicación se hace con paquetes de 16 bytes de tamaño
 	fijo. Estos paquetes se transportan por UDP o TCP.
@@ -70,6 +70,17 @@
 	    | ROJO  | VERDE |  AZUL |X X X X|
 	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+	    Delay: en el caso de un paquete COMMAND, es el tiempo en
+		milisegundos que debe esperar el NODO antes de prenderse.
+		En el caso de un paquete TOUCHE, es el tiempo en milisegundos
+		que tardó en ser apagado.
+
+		Step: es el número de paso de la rutina que se esté ejecutando.
+		Cuando el NODO recibe un paquete COMMAND, su respuesta TOUCHE
+		(si correspondiese) debe tener el mismo número de paso de la
+		rutina. Si un paquete COMMAND tiene Step igual a cero, el NODO
+		debe ignorar su desactivación y no responder con TOUCHE.
+
 	    Configuración: define la distancia a la que se puede apagar
 	    el nodo y si debe emitir sonido al recibir un COMMAND.
 
@@ -80,6 +91,6 @@
 
 		D 1: Se puede apagar el nodo a mayor distancia
 		  0: No se puede apagar el nodo a mayor distancia
-		S 1: El nodo debe emitir sonido al ser apagado.
-		  0: El nodo no debe emitir sonido al ser apagado.
+		S 1: El nodo debe emitir sonido al prenderse.
+		  0: El nodo no debe emitir sonido al prenderse.
 
